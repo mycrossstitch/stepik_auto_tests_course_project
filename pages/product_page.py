@@ -17,3 +17,4 @@ class ProductPage(BasePage):
         basket_total = self.browser.find_element(*ProductPageLocators.BASKET_TOTAL_MESSAGE).text
         assert product_price == basket_total, \
             f"Expected basket total '{product_price}', but got '{basket_total}'"
+
