@@ -24,3 +24,17 @@ def test_guest_can_add_product_to_basket(browser, link):
     page.solve_quiz_and_get_code()  # метод из BasePage
     page.should_be_product_added_message()
     page.should_be_basket_total_correct()
+
+def test_guest_should_see_login_link_on_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_be_login_link()
+
+def test_guest_can_go_to_login_page_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.go_to_login_page()
+    # здесь можно проверить, что URL изменился
+    assert "login" in page.browser.current_url, "Guest did not reach login page"
