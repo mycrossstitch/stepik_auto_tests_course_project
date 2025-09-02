@@ -1,3 +1,5 @@
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from .base_page import BasePage
 from .locators import ProductPageLocators
 
@@ -7,8 +9,13 @@ class ProductPage(BasePage):
         add_button.click()
 
     def should_be_product_added_message(self):
+        # ждём появления сообщения
+        success_message = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located(ProductPageLocators.SUCCESS_MESSAGE_PRODUCT_NAME)
+        ).text
+        # ищем продукт заново (обновлённый элемент, а не старый)
         product_name = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).text
-        success_message = self.browser.find_element(*ProductPageLocators.SUCCESS_MESSAGE_PRODUCT_NAME).text
+
         assert product_name == success_message, \
             f"Expected product name '{product_name}' in success message, but got '{success_message}'"
 
